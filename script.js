@@ -1,4 +1,4 @@
-const targetWord = "PLANT"; // Replace with randomization if desired
+var targetWord = "PLANT"; // Replace with randomization if desired
 const maxGuesses = 6;
 let currentRow = 0;
 
@@ -9,7 +9,8 @@ const keyboard = document.getElementById("keyboard");
 
 const keyStatus = {}; // Store status of each key for coloring
 
-
+targetWord = generateWord()
+console.log(targetWord);
 // Create board
 for (let i = 0; i < maxGuesses * 5; i++) {
   const tile = document.createElement("div");
@@ -65,13 +66,19 @@ function handleKey(key) {
   }
 }
 
-function generateWord(){
-
+async function generateWord(){
+    try {
+    const response = await fetch("words.txt");
+    const text = await response.text();
+    const lines = text.split(/\r?\n/).filter(line => line.trim() !== ""); // split & remove blanks
+    const randomLine = lines[Math.floor(Math.random() * lines.length)];
+    return randomLine.trim().toUpperCase(); // Wordle style
+    }catch{
+        return "PLANT"
+    }
 }
 
-function makeList(){
-    
-}
+
 function submitGuess() {
   const guess = input.value.toUpperCase();
   if (guess.length !== 5) {
