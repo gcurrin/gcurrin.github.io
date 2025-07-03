@@ -1,4 +1,4 @@
-var targetWord = "PLANT"; // Replace with randomization if desired
+// Replace with randomization if desired
 const maxGuesses = 6;
 let currentRow = 0;
 
@@ -9,8 +9,8 @@ const keyboard = document.getElementById("keyboard");
 
 const keyStatus = {}; // Store status of each key for coloring
 
-targetWord = generateWord()
-console.log(targetWord);
+let targetWord = "PLANT"
+initialize()
 // Create board
 for (let i = 0; i < maxGuesses * 5; i++) {
   const tile = document.createElement("div");
@@ -66,6 +66,10 @@ function handleKey(key) {
   }
 }
 
+async function initialize(){
+    targetWord = generateWord()
+    console.log(targetWord)
+}
 async function generateWord(){
     try {
     const response = await fetch("words.txt");
