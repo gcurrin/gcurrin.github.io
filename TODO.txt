@@ -1,0 +1,5 @@
+add in keyboard for typing words
+link word to that website
+limit only valid latin words
+have reset working.
+Add in giveup option

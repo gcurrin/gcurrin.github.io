@@ -8,7 +8,7 @@ const message = document.getElementById("message");
 const keyboard = document.getElementById("keyboard");
 const wordlist = document.getElementById("wordList");
 console.log(wordlist);
-const keyStatus = {}; // Store status of each key for coloring
+let keyStatus = {}; // Store status of each key for coloring
 console.log("Version 0.6");
 let targetWord = "PLANT";
 const wordList = initialize();
@@ -79,6 +79,11 @@ function initialize(){
 function generateWord(){
     targetWord = wordList[Math.floor(Math.random() * wordList.length)].toUpperCase();
     console.log(targetWord);
+    reset();
+}
+
+function reset(){
+    keyStatus = {};//THis is wrong need to loop through and reset.
 }
 
 
