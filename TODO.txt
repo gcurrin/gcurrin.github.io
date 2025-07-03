@@ -1,7 +1,8 @@
 DONE add in keyboard for typing words
 DONE add in the boxes filling up and get rid of input form.
 
-link word to that website
-limit only valid latin words
-have reset working.
+DONE link word to that website
+DONE limit only valid latin words
+DONE have reset working.
+
 Add in giveup option

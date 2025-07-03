@@ -7,6 +7,7 @@ const input = document.getElementById("guessInput");
 const message = document.getElementById("message");
 const keyboard = document.getElementById("keyboard");
 const wordlist = document.getElementById("wordList");
+const link = document.getElementById("dictionary")
 console.log(wordlist);
 let keyStatus = {}; // Store status of each key for coloring
 console.log("Version 0.7");
@@ -114,10 +115,13 @@ function submitGuess() {
     return;
   }
 
-  if (currentRow >= maxGuesses) {
-    message.textContent = "No more guesses!";
+  if(!wordList.includes(input.value.toLowerCase())){
+    message.textContent = "Guess must be a valid word.";
     return;
   }
+  
+
+
 
   for (let i = 0; i < 5; i++) {
     const tile = board.children[currentRow * 5 + i];
@@ -137,6 +141,8 @@ function submitGuess() {
 
   if (guess === targetWord) {
     message.textContent = "🎉 Correct! You guessed the word!";
+    link.textContent = "Definition";
+    link.href = "https://www.latindictionary.io/dictionary?q="+targetWord.toUpperCase();
     input.disabled = true;
     return;
   }
@@ -146,6 +152,8 @@ function submitGuess() {
 
   if (currentRow === maxGuesses) {
     message.textContent = `❌ Out of guesses! The word was ${targetWord}`;
+    link.textContent = "Definition";
+    link.href = "https://www.latindictionary.io/dictionary?q="+targetWord.toUpperCase();
     input.disabled = true;
   }
 }
