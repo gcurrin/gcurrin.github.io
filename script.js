@@ -10,7 +10,7 @@ const keyboard = document.getElementById("keyboard");
 const keyStatus = {}; // Store status of each key for coloring
 
 let targetWord = "PLANT"
-initialize()
+
 // Create board
 for (let i = 0; i < maxGuesses * 5; i++) {
   const tile = document.createElement("div");
@@ -44,6 +44,7 @@ keyboardLayout.forEach(row => {
 
 functionKeys.forEach(word =>wordToButton(word));
 
+initialize();
 function wordToButton(word){
     const key = document.createElement("button");
     key.className = "key";
