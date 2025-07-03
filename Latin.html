@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mini Wordle</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121213;
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #ffffff;
+    }
+
+    #board {
+      display: grid;
+      grid-template-columns: repeat(5, 60px);
+      gap: 5px;
+      margin-top: 20px;
+    }
+
+    .tile {
+      width: 60px;
+      height: 60px;
+      border: 2px solid #3a3a3c;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+      text-transform: uppercase;
+      font-weight: bold;
+      background-color: #121213;
+      color: white;
+    }
+
+    .correct {
+      background-color: #538d4e;
+      border-color: #538d4e;
+    }
+
+    .present {
+      background-color: #b59f3b;
+      border-color: #b59f3b;
+    }
+
+    .absent {
+      background-color: #3a3a3c;
+      border-color: #3a3a3c;
+    }
+
+    #message {
+      margin-top: 20px;
+      font-size: 1.2rem;
+    }
+
+    input[type="text"] {
+      margin-top: 20px;
+      padding: 10px;
+      font-size: 1rem;
+      text-transform: uppercase;
+      width: 150px;
+      text-align: center;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #538d4e;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #6aaa64;
+    }
+  </style>
+</head>
+<body>
+  <h1>Mini Wordle</h1>
+  <div id="board"></div>
+  <input type="text" id="guessInput" maxlength="5" placeholder="Enter guess" />
+  <button onclick="submitGuess()">Submit</button>
+  <div id="message"></div>
+
+  <script>
+    const targetWord = "PLANT"; // Change this word to a random one for variety
+    const maxGuesses = 6;
+    let currentRow = 0;
+
+    const board = document.getElementById("board");
+
+    // Create empty tiles
+    for (let i = 0; i < maxGuesses * 5; i++) {
+      const tile = document.createElement("div");
+      tile.className = "tile";
+      board.appendChild(tile);
+    }
+
+    function submitGuess() {
+      const input = document.getElementById("guessInput");
+      const guess = input.value.toUpperCase();
+      const message = document.getElementById("message");
+
+      if (guess.length !== 5) {
+        message.textContent = "Guess must be 5 letters.";
+        return;
+      }
+
+      if (currentRow >= maxGuesses) {
+        message.textContent = "No more guesses!";
+        return;
+      }
+
+      for (let i = 0; i < 5; i++) {
+        const tile = board.children[currentRow * 5 + i];
+        tile.textContent = guess[i];
+
+        if (guess[i] === targetWord[i]) {
+          tile.classList.add("correct");
+        } else if (targetWord.includes(guess[i])) {
+          tile.classList.add("present");
+        } else {
+          tile.classList.add("absent");
+        }
+      }
+
+      if (guess === targetWord) {
+        message.textContent = "🎉 Correct! You guessed the word!";
+        input.disabled = true;
+        return;
+      }
+
+      currentRow++;
+      input.value = "";
+
+      if (currentRow === maxGuesses) {
+        message.textContent = `❌ Out of guesses! The word was ${targetWord}`;
+        input.disabled = true;
+      }
+    }
+  </script>
+</body>
+</html>
