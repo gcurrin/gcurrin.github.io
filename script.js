@@ -9,7 +9,7 @@ const keyboard = document.getElementById("keyboard");
 const wordlist = document.getElementById("wordList");
 console.log(wordlist);
 let keyStatus = {}; // Store status of each key for coloring
-console.log("Version 0.6");
+console.log("Version 0.7");
 let targetWord = "PLANT";
 const wordList = initialize();
 generateWord();
@@ -29,8 +29,8 @@ const keyboardLayout = [
 ];
 
 const functionKeys = [
-    "ENTER",
-    "BACK",
+    "Enter",
+    "BACKSPACE",
     "New Word"
 ];
 
@@ -55,17 +55,35 @@ function wordToButton(word){
     key.onclick = () => handleKey(word);
     bigbuttons.appendChild(key);
 }
+document.addEventListener('keydown', function(event){
+    handleKey(event.key)
+})
 function handleKey(key) {
   if (input.disabled) return;
-
-  if (key === "BACK") {
+  if (key === "Backspace") {
     input.value = input.value.slice(0, -1);
-  } else if (key === "ENTER") {
+  } else if (key === "Enter") {
     submitGuess();
   } else if (key === "New Word"){
     generateWord()
-  }else if (input.value.length < 5) {
+  }else if (input.value.length < 5 && key.length ==1) {
     input.value += key;
+  }
+  const guess = input.value.toUpperCase();
+  for (let i = 0; i < 5; i++) {
+    const tile = board.children[currentRow * 5 + i];
+    const letter = guess[i];
+    tile.textContent = letter;
+
+    // let status = "absent";
+    // if (letter === targetWord[i]) {
+    //   status = "correct";
+    // } else if (targetWord.includes(letter)) {
+    //   status = "present";
+    // }
+
+    //tile.classList.add(status);
+    //updateKeyColor(letter, status);
   }
 }
 
@@ -76,6 +94,7 @@ function initialize(){
     .map(w => w.trim())
     .filter(w => w.length === 5);
 }
+
 function generateWord(){
     targetWord = wordList[Math.floor(Math.random() * wordList.length)].toUpperCase();
     console.log(targetWord);
