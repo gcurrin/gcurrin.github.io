@@ -31,7 +31,7 @@ const keyboardLayout = [
 const functionKeys = [
     "Enter",
     "BACKSPACE",
-    "New Word"
+    "Reset"
 ];
 
 keyboardLayout.forEach(row => {
@@ -64,8 +64,8 @@ function handleKey(key) {
     input.value = input.value.slice(0, -1);
   } else if (key === "Enter") {
     submitGuess();
-  } else if (key === "New Word"){
-    generateWord()
+  } else if (key === "Reset"){
+    location.reload()
   }else if (input.value.length < 5 && key.length ==1) {
     input.value += key;
   }
