@@ -6,10 +6,13 @@ const board = document.getElementById("board");
 const input = document.getElementById("guessInput");
 const message = document.getElementById("message");
 const keyboard = document.getElementById("keyboard");
-
+const wordlist = document.getElementById("wordList");
+console.log(wordlist);
 const keyStatus = {}; // Store status of each key for coloring
-console.log("Version 0.6")
-let targetWord = "PLANT"
+console.log("Version 0.6");
+let targetWord = "PLANT";
+const wordList = initialize();
+generateWord();
 
 // Create board
 for (let i = 0; i < maxGuesses * 5; i++) {
@@ -44,7 +47,6 @@ keyboardLayout.forEach(row => {
 
 functionKeys.forEach(word =>wordToButton(word));
 
-initialize();
 function wordToButton(word){
     const key = document.createElement("button");
     key.className = "key";
@@ -67,27 +69,22 @@ function handleKey(key) {
   }
 }
 
-async function initialize(){
-    targetWord = generateWord()
-    console.log(targetWord)
+function initialize(){
+    const chosen = wordlist.textContent;
+    return chosen
+    .split(/\r?\n/)
+    .map(w => w.trim())
+    .filter(w => w.length === 5);
 }
-async function generateWord(){
-    try {
-    const response = await fetch("words.txt");
-    const text = await response.text();
-    const lines = text.split(/\r?\n/).filter(line => line.trim() !== ""); // split & remove blanks
-    const randomLine = lines[Math.floor(Math.random() * lines.length)];
-    return randomLine.trim().toUpperCase(); // Wordle style
-    }catch{
-        return "PLANT"
-    }
+function generateWord(){
+    targetWord = wordList[Math.floor(Math.random() * wordList.length)].toUpperCase();
+    console.log(targetWord);
 }
 
 
 function submitGuess() {
 
   const guess = input.value.toUpperCase();
-  console.log("The word being guessed is " + guess  + " the target word is " + targetWord)
   if (guess.length !== 5) {
     message.textContent = "Guess must be 5 letters.";
     return;
