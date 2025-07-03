@@ -8,7 +8,7 @@ const message = document.getElementById("message");
 const keyboard = document.getElementById("keyboard");
 
 const keyStatus = {}; // Store status of each key for coloring
-
+console.log("Version 0.6")
 let targetWord = "PLANT"
 
 // Create board
@@ -85,7 +85,9 @@ async function generateWord(){
 
 
 function submitGuess() {
+
   const guess = input.value.toUpperCase();
+  console.log("The word being guessed is " + guess  + " the target word is " + targetWord)
   if (guess.length !== 5) {
     message.textContent = "Guess must be 5 letters.";
     return;
