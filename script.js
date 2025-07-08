@@ -7,8 +7,9 @@ const input = document.getElementById("guessInput");
 const message = document.getElementById("message");
 const keyboard = document.getElementById("keyboard");
 const wordlist = document.getElementById("wordList");
-const link = document.getElementById("dictionary")
-console.log(wordlist);
+const link = document.getElementById("dictionary");
+const wordSet = document.getElementById("wordSet");
+const setInput = document.getElementById("setInput");
 let keyStatus = {}; // Store status of each key for coloring
 console.log("Version 0.7");
 let targetWord = "PLANT";
@@ -34,6 +35,12 @@ const functionKeys = [
     "BACKSPACE",
     "Reset"
 ];
+
+const setKey = document.createElement("button");
+setKey.className = "key"
+setKey.textContent = "Set Word";
+setKey.onclick = () => handleKey("Set Word");
+wordSet.appendChild(setKey);
 
 keyboardLayout.forEach(row => {
   for (const char of row) {
@@ -67,6 +74,22 @@ function handleKey(key) {
     submitGuess();
   } else if (key === "Reset"){
     location.reload()
+  }else if(key === "Set Word"){
+    console.log("assigning word")
+    const guess = setInput.value.toUpperCase();
+    if (guess.length !== 5) {
+        message.textContent = "Word must be 5 letters.";
+        return;
+    }
+
+    if(!wordList.includes(input.value.toLowerCase())){
+        message.textContent = "Word must be a valid word.";
+        return;
+    }
+    message.textContent = "";
+    targetWord = guess;
+    wordSet.style.display = "none"
+    input.value = ""
   }else if (input.value.length < 5 && key.length ==1) {
     input.value += key;
   }
@@ -120,7 +143,7 @@ function submitGuess() {
     return;
   }
   
-
+  wordSet.style.display = "none"
 
 
   for (let i = 0; i < 5; i++) {
