@@ -11,8 +11,8 @@ const link = document.getElementById("dictionary");
 const wordSet = document.getElementById("wordSet");
 const setInput = document.getElementById("setInput");
 let keyStatus = {}; // Store status of each key for coloring
-console.log("Version 0.7");
-let targetWord = "PLANT";
+console.log("Version 1.0");
+let targetWord = "GILES";
 const wordList = initialize();
 generateWord();
 
