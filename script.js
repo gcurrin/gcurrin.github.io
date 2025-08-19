@@ -11,7 +11,7 @@ const link = document.getElementById("dictionary");
 const wordSet = document.getElementById("wordSet");
 const setInput = document.getElementById("setInput");
 let keyStatus = {}; // Store status of each key for coloring
-console.log("Version 1.0");
+console.log("Version 1.1");
 let targetWord = "GILES";
 const wordList = initialize();
 generateWord();
@@ -166,7 +166,7 @@ function submitGuess() {
     message.textContent = "🎉 Correct! You guessed the word!";
     link.textContent = "Definition";
     link.href = "https://www.latindictionary.io/dictionary?q="+targetWord.toUpperCase();
-    input.disabled = true;
+    //input.disabled = true;
     return;
   }
 
@@ -177,7 +177,7 @@ function submitGuess() {
     message.textContent = `❌ Out of guesses! The word was ${targetWord}`;
     link.textContent = "Definition";
     link.href = "https://www.latindictionary.io/dictionary?q="+targetWord.toUpperCase();
-    input.disabled = true;
+    //input.disabled = true;
   }
 }
 
