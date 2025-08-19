@@ -11,7 +11,7 @@ const link = document.getElementById("dictionary");
 const wordSet = document.getElementById("wordSet");
 const setInput = document.getElementById("setInput");
 let keyStatus = {}; // Store status of each key for coloring
-console.log("Version 1.1");
+console.log("Version 1.2");
 let targetWord = "GILES";
 const wordList = initialize();
 generateWord();
@@ -154,7 +154,7 @@ function submitGuess() {
     let status = "absent";
     if (letter === targetWord[i]) {
       status = "correct";
-    } else if (targetWord.includes(letter)) {
+    } else if (targetWord.includes(letter) && (guess[targetWord.indexOf(letter)]!=letter)) {
       status = "present";
     }
 
