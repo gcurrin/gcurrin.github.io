@@ -1,8 +1,0 @@
-DONE add in keyboard for typing words
-DONE add in the boxes filling up and get rid of input form.
-
-DONE link word to that website
-DONE limit only valid latin words
-DONE have reset working.
-
-Add in giveup option
