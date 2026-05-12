@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contraception Matching Bingo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background-color: #f0f9ff;
+        }
+        .bingo-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        .drop-zone.over {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+            transform: scale(1.02);
+        }
+        .correct {
+            border-color: #10b981 !important;
+            background-color: #ecfdf5 !important;
+            pointer-events: none;
+        }
+        .shake {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+            40%, 60% { transform: translate3d(4px, 0, 0); }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center p-4 md:p-8">
+
+    <!-- Header -->
+    <header class="text-center mb-8">
+        <h1 class="text-4xl md:text-5xl font-bold text-blue-600 mb-2">Contraception Bingo</h1>
+        <p class="text-gray-600 text-lg">Match the method name to the correct image!</p>
+    </header>
+
+    <main class="w-full max-w-5xl flex flex-col md:flex-row gap-8 items-start">
+        
+        <!-- Term Dock (Left) -->
+        <section class="w-full md:w-1/3 bg-white p-6 rounded-3xl shadow-xl border-4 border-blue-100">
+            <h2 class="text-xl font-semibold mb-4 text-blue-500 border-b-2 border-blue-50 pb-2">Methods</h2>
+            <div id="term-dock" class="flex flex-wrap md:flex-col gap-3">
+                <!-- Terms will be injected here -->
+            </div>
+        </section>
+
+        <!-- Bingo Board (Center/Right) -->
+        <section class="w-full md:w-2/3 bg-white p-6 rounded-3xl shadow-xl border-4 border-purple-100">
+            <div id="bingo-board" class="bingo-grid">
+                <!-- Grid items will be injected here -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Celebration Overlay (Hidden by default) -->
+    <div id="win-screen" class="fixed inset-0 bg-blue-600/90 hidden flex-col items-center justify-center z-50 text-white p-6">
+        <h2 class="text-6xl font-bold mb-4">BINGO!</h2>
+        <p class="text-2xl mb-8 text-center">You've mastered the contraception methods!</p>
+        <button onclick="window.location.reload()" class="bg-white text-blue-600 px-8 py-4 rounded-full font-bold text-xl hover:bg-blue-50 transition-colors shadow-lg">
+            Play Again
+        </button>
+    </div>
+
+    <script>
+        const METHODS = [
+            { 
+                id: 'h-iud', name: 'Hormonal IUD', 
+                img: './images/hormonal-iud.png' 
+            },
+            { 
+                id: 'c-iud', name: 'Copper IUD', 
+                img: './images/copper-iud.png' 
+            },
+            { 
+                id: 'pill', name: 'The Pill', 
+                img: './images/pill.png' 
+            },
+            { 
+                id: 'ring', name: 'Vaginal Ring', 
+                img: './images/ring.png' 
+            },
+            { 
+                id: 'implant', name: 'Implant', 
+                img: './images/implant.png' 
+            },
+            { 
+                id: 'shot', name: 'Shot', 
+                img: './images/shot.png' 
+            },
+            { 
+                id: 'patch', name: 'Patch', 
+                img: './images/patch.png' 
+            },
+            { 
+                id: 'condoms', name: 'Condoms', 
+                img: './images/condoms.png' 
+            },
+            { 
+                id: 'cap', name: 'Cervical Cap', 
+                img: './images/cap.png' 
+            }
+        ];
+
+        let matchedCount = 0;
+
+        function initGame() {
+            const dock = document.getElementById('term-dock');
+            const board = document.getElementById('bingo-board');
+
+            // Shuffle data
+            const shuffledBoard = [...METHODS].sort(() => Math.random() - 0.5);
+            const shuffledTerms = [...METHODS].sort(() => Math.random() - 0.5);
+
+            // Create Terms (Draggable)
+            shuffledTerms.forEach(method => {
+                const term = document.createElement('div');
+                term.className = 'bg-blue-500 text-white px-4 py-3 rounded-2xl cursor-grab active:cursor-grabbing font-semibold text-center shadow hover:bg-blue-600 transition-all select-none';
+                term.draggable = true;
+                term.innerText = method.name;
+                term.dataset.id = method.id;
+                
+                term.addEventListener('dragstart', (e) => {
+                    e.dataTransfer.setData('text/plain', method.id);
+                    term.classList.add('opacity-50');
+                });
+
+                term.addEventListener('dragend', () => term.classList.remove('opacity-50'));
+                dock.appendChild(term);
+            });
+
+            // Create Grid Slots
+            shuffledBoard.forEach(method => {
+                const slot = document.createElement('div');
+                slot.className = 'drop-zone relative bg-gray-50 border-4 border-dashed border-gray-200 rounded-2xl p-4 flex flex-col items-center justify-center aspect-square transition-all duration-300 overflow-hidden';
+                slot.dataset.id = method.id;
+
+                const imgElement = document.createElement('img');
+                imgElement.src = method.img;
+                imgElement.alt = "Contraception Method";
+                imgElement.className = 'w-full h-full object-contain pointer-events-none rounded-lg';
+                
+                slot.appendChild(imgElement);
+
+                // Drag Events
+                slot.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    slot.classList.add('over');
+                });
+
+                slot.addEventListener('dragleave', () => slot.classList.remove('over'));
+
+                slot.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    slot.classList.remove('over');
+                    const draggedId = e.dataTransfer.getData('text/plain');
+
+                    if (draggedId === slot.dataset.id) {
+                        handleMatch(draggedId, slot);
+                    } else {
+                        handleMiss(slot);
+                    }
+                });
+
+                board.appendChild(slot);
+            });
+        }
+
+        function handleMatch(id, slot) {
+            const termElement = document.querySelector(`[data-id="${id}"]`);
+            termElement.classList.add('invisible'); // Hide from dock
+            
+            slot.classList.add('correct');
+            
+            // Overlay the success label instead of replacing the image
+            const label = document.createElement('div');
+            label.className = 'absolute bottom-2 left-2 right-2 bg-green-100 text-green-700 text-sm font-bold py-1 px-2 rounded shadow text-center border border-green-300';
+            label.innerHTML = `✅ ${METHODS.find(m => m.id === id).name}`;
+            slot.appendChild(label);
+            
+            matchedCount++;
+            if (matchedCount === METHODS.length) {
+                triggerWin();
+            }
+        }
+
+        function handleMiss(slot) {
+            slot.classList.add('shake', 'border-red-400');
+            setTimeout(() => {
+                slot.classList.remove('shake', 'border-red-400');
+            }, 500);
+        }
+
+        function triggerWin() {
+            confetti({
+                particleCount: 150,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+            setTimeout(() => {
+                document.getElementById('win-screen').classList.remove('hidden');
+                document.getElementById('win-screen').classList.add('flex');
+            }, 1000);
+        }
+
+        initGame();
+    </script>
+</body>
+</html>
