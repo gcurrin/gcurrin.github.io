@@ -78,39 +78,48 @@
         const METHODS = [
             { 
                 id: 'h-iud', name: 'Hormonal IUD', 
-                img: './images/hormonal-iud.png' 
+                img: './images/hormonal-iud.jpg',
+                svg: `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-md"><path d="M20 30 Q50 40 80 30" fill="none" stroke="#d1d5db" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="35" x2="50" y2="80" stroke="#d1d5db" stroke-width="6" stroke-linecap="round"/><rect x="44" y="45" width="12" height="25" rx="4" fill="#3b82f6"/></svg>` 
             },
             { 
                 id: 'c-iud', name: 'Copper IUD', 
-                img: './images/copper-iud.png' 
+                img: './images/copper-iud.jpg',
+                svg: `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-md"><path d="M20 30 Q50 40 80 30" fill="none" stroke="#d1d5db" stroke-width="6" stroke-linecap="round"/><line x1="50" y1="35" x2="50" y2="80" stroke="#d1d5db" stroke-width="6" stroke-linecap="round"/><line x1="45" y1="45" x2="55" y2="45" stroke="#d97706" stroke-width="4"/><line x1="45" y1="52" x2="55" y2="52" stroke="#d97706" stroke-width="4"/><line x1="45" y1="59" x2="55" y2="59" stroke="#d97706" stroke-width="4"/><line x1="45" y1="66" x2="55" y2="66" stroke="#d97706" stroke-width="4"/></svg>` 
             },
             { 
                 id: 'pill', name: 'The Pill', 
-                img: './images/pill.png' 
+                img: './images/pill.jpg',
+                svg: `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-md"><rect x="20" y="10" width="60" height="80" rx="10" fill="#fce7f3" stroke="#f472b6" stroke-width="4"/><circle cx="35" cy="25" r="7" fill="#f472b6"/><circle cx="65" cy="25" r="7" fill="#f472b6"/><circle cx="35" cy="50" r="7" fill="#f472b6"/><circle cx="65" cy="50" r="7" fill="#f472b6"/><circle cx="35" cy="75" r="7" fill="#f472b6"/><circle cx="65" cy="75" r="7" fill="#f472b6"/></svg>` 
             },
             { 
                 id: 'ring', name: 'Vaginal Ring', 
-                img: './images/ring.png' 
+                img: './images/ring.jpg',
+                svg: `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-md"><circle cx="50" cy="50" r="35" fill="none" stroke="#a855f7" stroke-width="12" opacity="0.6"/><circle cx="50" cy="50" r="35" fill="none" stroke="#d8b4fe" stroke-width="6"/></svg>` 
             },
             { 
                 id: 'implant', name: 'Implant', 
-                img: './images/implant.png' 
+                img: './images/implant.webp',
+                svg: `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-md"><rect x="42" y="20" width="16" height="60" rx="8" fill="#2dd4bf"/><path d="M47 25 L53 25 M47 75 L53 75" stroke="#14b8a6" stroke-width="2"/></svg>` 
             },
             { 
                 id: 'shot', name: 'Shot', 
-                img: './images/shot.png' 
+                img: './images/shot.jpg',
+                svg: `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-md" transform="rotate(45)"><rect x="40" y="20" width="20" height="50" rx="2" fill="#e0f2fe" stroke="#38bdf8" stroke-width="3"/><rect x="35" y="15" width="30" height="5" fill="#38bdf8"/><rect x="48" y="70" width="4" height="20" fill="#94a3b8"/><rect x="45" y="5" width="10" height="10" fill="#bae6fd"/><line x1="40" y1="35" x2="48" y2="35" stroke="#38bdf8" stroke-width="2"/><line x1="40" y1="45" x2="48" y2="45" stroke="#38bdf8" stroke-width="2"/><line x1="40" y1="55" x2="48" y2="55" stroke="#38bdf8" stroke-width="2"/></svg>` 
             },
             { 
                 id: 'patch', name: 'Patch', 
-                img: './images/patch.png' 
+                img: './images/patch.webp',
+                svg: `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-md"><rect x="25" y="25" width="50" height="50" rx="8" fill="#fde68a" stroke="#fbbf24" stroke-width="2"/><rect x="32" y="32" width="36" height="36" rx="4" fill="#fef3c7" stroke="#fcd34d" stroke-width="1"/></svg>` 
             },
             { 
                 id: 'condoms', name: 'Condoms', 
-                img: './images/condoms.png' 
+                img: './images/condoms.jpg',
+                svg: `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-md"><rect x="25" y="25" width="50" height="50" rx="5" fill="#ef4444" stroke="#b91c1c" stroke-width="2"/><circle cx="50" cy="50" r="15" fill="#fca5a5"/><circle cx="50" cy="50" r="10" fill="#fecaca"/></svg>` 
             },
             { 
                 id: 'cap', name: 'Cervical Cap', 
-                img: './images/cap.png' 
+                img: './images/cap.jpg',
+                svg: `<svg viewBox="0 0 100 100" class="w-full h-full drop-shadow-md"><path d="M25 60 Q50 20 75 60" fill="#f9a8d4" stroke="#ec4899" stroke-width="4"/><path d="M20 60 L80 60" stroke="#ec4899" stroke-width="6" stroke-linecap="round"/><path d="M45 60 Q50 80 55 60" fill="none" stroke="#ec4899" stroke-width="4"/></svg>` 
             }
         ];
 
@@ -151,6 +160,14 @@
                 imgElement.src = method.img;
                 imgElement.alt = "Contraception Method";
                 imgElement.className = 'w-full h-full object-contain pointer-events-none rounded-lg';
+                
+                // Fallback to SVG if the image fails to load
+                imgElement.onerror = function() {
+                    const iconWrapper = document.createElement('div');
+                    iconWrapper.className = 'w-20 h-20 md:w-24 md:h-24 pointer-events-none flex items-center justify-center';
+                    iconWrapper.innerHTML = method.svg;
+                    slot.replaceChild(iconWrapper, imgElement);
+                };
                 
                 slot.appendChild(imgElement);
 
